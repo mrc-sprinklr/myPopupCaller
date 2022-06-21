@@ -1,0 +1,49 @@
+.call-disconnected {
+    --call: #19e17d;
+    --call_dark: #0ab464;
+}
+
+.call-connected {
+    --call: #e64b50;
+    --call_dark: #c83c4b;
+}
+
+.theme-silver {
+    --main: #c8d2dc;
+    --main_light: #ebf0f5;
+    --main_dark: #b4bec8;
+    --main_darker: #5a646e;
+
+    --back: #faf5f0;
+    --front: #1e1e1e;
+}
+
+.theme-charcoal {
+    --main: #736e6e;
+    --main_light: #b4aaaa;
+    --main_dark: #3c3c3c;
+    --main_darker: #141414;
+
+    --back: #1e1e1e;
+    --front: #faf5f0;
+}
+
+.theme-ocean {
+    --main: #19c8e1;
+    --main_light: #4be6ff;
+    --main_dark: #0aafd2;
+    --main_darker: #053264;
+
+    --back: #1e1e1e;
+    --front: #faf5f0;
+}
+
+.theme-fire {
+    --main: #e69128;
+    --main_light: #ffdc73;
+    --main_dark: #c86414;
+    --main_darker: #c8190a;
+
+    --back: #1e1e1e;
+    --front: #faf5f0;
+}
