@@ -1,3 +1,7 @@
+const acknowledged = (message) => {
+  console.log("message sent");
+};
+
 function sendMessage(message, callback) {
   if (window.opener) {
     window.opener.receiveMessage(message, callback);
@@ -5,10 +9,8 @@ function sendMessage(message, callback) {
 }
 
 function receiveMessage(message, callback) {
+  console.log(message);
   callback(message);
 }
 
-sendMessage("dialer popped up", (message) => {
-  // window.console.log("message sent");
-  console.log("message sent");
-});
+sendMessage("dialer popped up", acknowledged);
