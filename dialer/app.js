@@ -15,12 +15,27 @@ setInterval(() => {
 }, 500);
 
 /*
-  UPDATE THE DIALED_NUMBER VIEW
+  INSERT CURSOR WITH MOUSE CLICKS
 */
 function insertCursor(event) {
-  console.log(event.target.innerHTML);
+  let id = Number(event.target.id.slice("position-".length));
+  // console.log(id);
+
+  let span_rect = document
+    .getElementById(`position-${id}`)
+    .getBoundingClientRect();
+  let diff = 2 * event.clientX - span_rect.left - span_rect.right > 0;
+  // console.log(diff);
+
+  dialed_digits.splice(cursor_index, 1);
+  cursor_index = id + diff;
+  dialed_digits.splice(cursor_index, 0, cursor_object);
+  updateDialedNumber();
 }
 
+/*
+  UPDATE THE DIALED_NUMBER VIEW
+*/
 let cursor_index = 0;
 const cursor_object = {
   key: "|",
@@ -31,14 +46,55 @@ const dialed_number = document.querySelector(".dialed-number");
 
 function updateDialedNumber() {
   dialed_number.innerHTML = "";
-  dialed_digits.forEach((each, i) => {
-    each.html = each.html.replace(/position-\d+/, `position-${i}`);
+  let i = 0;
+  dialed_digits.forEach((each) => {
+    if (each.key != "|")
+      each.html = each.html.replace(/position-\d+/, `position-${i++}`);
     dialed_number.innerHTML += each.html;
   });
   document.querySelectorAll(".editable").forEach((element) => {
     element.onclick = insertCursor;
   });
 }
+
+/*
+  LISTENING TO MOUSE CLICKS
+*/
+document.querySelectorAll(".digit").forEach((each) => {
+  each.onclick = () => {
+    if (dialed_digits.length <= 10) {
+      dialed_digits.splice(cursor_index++, 0, {
+        key: `${each.textContent}`,
+        html: `<span class="editable" id="position-0">${each.textContent}</span>`,
+      });
+      updateDialedNumber();
+    }
+  };
+});
+
+/*
+  LISTENING TO CALL BUTTON
+*/
+const call_container = document.querySelector(".call");
+const phone_button = document.getElementById("phone-button");
+let dialed_phone_number = null;
+
+phone_button.onclick = () => {
+  if (dialed_phone_number) {
+    call_container.classList.remove("call-connected");
+    call_container.classList.add("call-disconnected");
+    console.log("Hung-up: ", dialed_phone_number);
+    dialed_phone_number = null;
+  } else if (dialed_digits.length === 11) {
+    dialed_phone_number = country_code.textContent;
+    dialed_digits.forEach((each) => {
+      if (each.key != "|") dialed_phone_number += each.key;
+    });
+    call_container.classList.remove("call-disconnected");
+    call_container.classList.add("call-connected");
+    console.log("Dialing: ", dialed_phone_number);
+  }
+};
 
 /*
   LISTENING TO KEYPRESSES (DIGITS, BACKSPACE, ARROWS)
@@ -85,43 +141,7 @@ window.addEventListener("keydown", (event) => {
       dialed_digits.splice(cursor_index, 0, cursor_object);
       updateDialedNumber();
     }
+  } else if (event.key === "Enter") {
+    phone_button.click();
   }
 });
-
-/*
-  LISTENING TO MOUSE CLICKS
-*/
-document.querySelectorAll(".digit").forEach((each) => {
-  each.onclick = () => {
-    if (dialed_digits.length <= 10) {
-      dialed_digits.splice(cursor_index++, 0, {
-        key: `${each.textContent}`,
-        html: `<span class="editable" id="position-0">${each.textContent}</span>`,
-      });
-      updateDialedNumber();
-    }
-  };
-});
-
-/*
-  LISTENING TO CALL BUTTON
-*/
-const call_container = document.querySelector(".call");
-let dialed_phone_number = null;
-
-document.getElementById("phone-button").onclick = () => {
-  if (dialed_phone_number) {
-    call_container.classList.remove("call-connected");
-    call_container.classList.add("call-disconnected");
-    console.log("Hung-up: ", dialed_phone_number);
-    dialed_phone_number = null;
-  } else if (dialed_digits.length === 11) {
-    dialed_phone_number = country_code.textContent;
-    dialed_digits.forEach((each) => {
-      if (each.key != "|") dialed_phone_number += each.key;
-    });
-    call_container.classList.remove("call-disconnected");
-    call_container.classList.add("call-connected");
-    console.log("Dialing: ", dialed_phone_number);
-  }
-};

@@ -56,10 +56,7 @@ body {
     grid-column-end: 4;
 
     padding: 30px 10px;
-}
-
-.phone-number:hover {
-    cursor: text;
+    cursor: default;
 }
 
 #country-code,
@@ -69,8 +66,8 @@ body {
     color: var(--main_light);
 }
 
-.editable:hover {
-    color: var(--back);
+.editable {
+    cursor: text !important;
 }
 
 .special-digit,
