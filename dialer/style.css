@@ -6,6 +6,34 @@ body {
     width: 100vw;
 }
 
+.root-container {
+    background-image: linear-gradient(to bottom, var(--main_dark), var(--main_darker));
+    color: var(--common_text);
+    font-size: 32px;
+
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.flip-3d > .flip-side {
+    position: absolute;
+    backface-visibility: hidden;
+    transition: transform 0.5s linear 0s;
+}
+
+.rotate-180 {
+    transform: perspective(750px) rotateY(-180deg);
+}
+
+.rotate0 {
+    transform: perspective(750px) rotateY(0deg);
+}
+
+.rotate180 {
+    transform: perspective(750px) rotateY(180deg);
+}
+
 .flex-row {
     display: flex;
     flex-flow: row nowrap;
@@ -24,16 +52,6 @@ body {
     justify-content: center;
 }
 
-.root-container {
-    background-image: linear-gradient(to bottom, var(--main_dark), var(--main_darker));
-    color: var(--front);
-    font-size: 32px;
-
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-}
-
 .grid-container {
     margin: 10px auto;
     padding: 10px 30px;
@@ -42,13 +60,71 @@ body {
 
     display: grid;
     align-items: stretch;
-    grid-template-columns: repeat(3, 1fr);
     row-gap: 10px;
     column-gap: 20px;
 }
 
+.column-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.column-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
 .grid-item {
     text-align: center;
+}
+
+.settings-button {
+    padding: 10px 30px;
+    font-size: 22px;
+    background-color: var(--main_darker);
+    color: var(--main_light);
+    border: transparent;
+    border-radius: 10px;
+}
+
+.settings-button:hover {
+    background-color: var(--main);
+    color: var(--main_darker);
+}
+
+.settings-button:focus {
+    outline: none !important;
+}
+
+.bars-box,
+.cross-box {
+    position: fixed;
+    top: 18px;
+    right: 15px;
+}
+
+#bars-button,
+#cross-button {
+    background-color: transparent;
+    border: transparent;
+    border-radius: 50%;
+    cursor: pointer !important;
+}
+
+#bars-button:hover,
+#cross-button:hover {
+    background-color: var(--main_dark);
+}
+
+#bars-button:focus,
+#cross-button:focus {
+    outline: none !important;
+}
+
+#bars,
+#cross {
+    padding: 10px;
+    height: 28px;
+    width: 28px;
+    fill: var(--main_light);
 }
 
 .phone-number {
@@ -113,4 +189,21 @@ body {
     height: 40px;
     width: 40px;
     fill: white;
+}
+
+.blank {
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    padding: 25px;
+}
+
+select {
+    padding: 5px;
+    font-size: 15px;
+    font-weight: bold;
+
+    color: var(--main_darker);
+    border-radius: 10px;
+    outline: none !important;
 }

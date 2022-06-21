@@ -2,6 +2,7 @@
 //   event.preventDefault();
 //   return "";
 // };
+const root_container = document.querySelector(".root-container");
 
 /*
   BLINKING EFFECT OF CURSOR
@@ -144,4 +145,39 @@ window.addEventListener("keydown", (event) => {
   } else if (event.key === "Enter") {
     phone_button.click();
   }
+});
+
+/*
+  ACCESSING THE SETTINGS
+*/
+const main_page = document.querySelector(".main-page");
+const settings_page = document.querySelector(".settings-page");
+
+const bars_button = document.getElementById("bars-button");
+const cross_button = document.getElementById("cross-button");
+
+bars_button.onclick = () => {
+  main_page.classList.remove("rotate0");
+  main_page.classList.add("rotate-180");
+
+  settings_page.classList.remove("rotate180");
+  settings_page.classList.add("rotate0");
+};
+
+cross_button.onclick = () => {
+  main_page.classList.remove("rotate-180");
+  main_page.classList.add("rotate0");
+
+  settings_page.classList.remove("rotate0");
+  settings_page.classList.add("rotate180");
+};
+
+/*
+  CHANGING THE THEME
+*/
+let cur_theme = "theme-silver";
+document.getElementById("theme").addEventListener("change", (event) => {
+  root_container.classList.remove(cur_theme);
+  cur_theme = event.target.value;
+  root_container.classList.add(cur_theme);
 });

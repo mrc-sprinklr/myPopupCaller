@@ -1,5 +1,16 @@
 let dialer = null;
 
+const b1 = document.getElementById("b1");
+b1.onclick = () => {
+  dialer = open(
+    "./dialer/popup.html",
+    "popup",
+    "left=75, top=75, width=400, height=600"
+  );
+  dialer.focus();
+  b1.disabled = true;
+};
+
 class Message {
   constructor(header, comment, object) {
     this.header = header;
@@ -21,6 +32,7 @@ function receiveMessage(message) {
     console.log(message.comment);
   else if (message.header === "reloaded") {
     dialer = message.object;
+    b1.disabled = true;
     console.log(message.comment);
   }
 
@@ -30,14 +42,4 @@ function receiveMessage(message) {
 
 window.onbeforeunload = () => {
   sendMessage(new Message("unloading", null, null));
-};
-
-const b1 = document.getElementById("b1");
-b1.onclick = () => {
-  dialer = open(
-    "./dialer/popup.html",
-    "popup",
-    "left=75, top=75, width=400, height=600"
-  );
-  dialer.focus();
 };

@@ -14,8 +14,7 @@
     --main_dark: #b4bec8;
     --main_darker: #5a646e;
 
-    --back: #faf5f0;
-    --front: #1e1e1e;
+    --common_text: #1e1e1e;
 }
 
 .theme-charcoal {
@@ -24,8 +23,7 @@
     --main_dark: #3c3c3c;
     --main_darker: #141414;
 
-    --back: #1e1e1e;
-    --front: #faf5f0;
+    --common_text: #faf5f0;
 }
 
 .theme-ocean {
@@ -34,8 +32,7 @@
     --main_dark: #0aafd2;
     --main_darker: #053264;
 
-    --back: #1e1e1e;
-    --front: #faf5f0;
+    --common_text: #faf5f0;
 }
 
 .theme-fire {
@@ -44,6 +41,5 @@
     --main_dark: #c86414;
     --main_darker: #c8190a;
 
-    --back: #1e1e1e;
-    --front: #faf5f0;
+    --common_text: #faf5f0;
 }
