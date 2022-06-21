@@ -1,22 +1,35 @@
 let dialer = null;
 
-const acknowledged = (message) => {
-  console.log("message sent");
-};
-
-function sendMessage(message, callback) {
-  if (dialer) {
-    dialer.receiveMessage(message, callback);
+class Message {
+  constructor(header, comment, object) {
+    this.header = header;
+    this.comment = comment;
+    this.object = object;
   }
 }
 
-function receiveMessage(message, callback) {
-  console.log(message);
-  callback(message);
+function sendMessage(message) {
+  if (dialer) {
+    dialer.receiveMessage(message);
+  } else {
+    console.log("no dialer available");
+  }
+}
+
+function receiveMessage(message) {
+  if (message.header === "acknowledged" || message.header === "initiated")
+    console.log(message.comment);
+  else if (message.header === "reloaded") {
+    dialer = message.object;
+    console.log(message.comment);
+  }
+
+  if (message.header && message.header != "acknowledged")
+    sendMessage(new Message("acknowledged", "sent successfully", null));
 }
 
 window.onbeforeunload = () => {
-  sendMessage("unloading", acknowledged);
+  sendMessage(new Message("unloading", null, null));
 };
 
 const b1 = document.getElementById("b1");
