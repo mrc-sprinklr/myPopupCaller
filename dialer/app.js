@@ -161,6 +161,8 @@ function toggleTimer(start) {
 const country_code = document.getElementById("country-code");
 
 window.addEventListener("keydown", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
   if (event.key >= "0" && event.key <= "9") {
     if (dialed_digits.length <= 10) {
       dialed_digits.splice(cursor_index++, 0, {
