@@ -245,7 +245,8 @@ document.getElementById("theme").addEventListener("change", (event) => {
 /*
   DIALED NUMBER HISTORY
 */
-document.getElementById("history").addEventListener("change", (event) => {
+const history_select = document.getElementById("history");
+history_select.addEventListener("change", (event) => {
   dialed_digits = [];
   Array.from(event.target.value).forEach((each_digit) => {
     dialed_digits.push({
@@ -257,6 +258,7 @@ document.getElementById("history").addEventListener("change", (event) => {
 
   cross_button.click();
   updateDialedNumber();
+  history_select.value = ""; // doesn't trigger a change
 });
 
 /*
