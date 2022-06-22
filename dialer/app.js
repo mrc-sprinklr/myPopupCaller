@@ -1,8 +1,43 @@
-// window.onbeforeunload = (event) => {
-//   event.preventDefault();
-//   return "";
-// };
 const root_container = document.querySelector(".root-container");
+
+/*
+  WINDOW RESTRICTIONS & DEVELOPER MODE
+*/
+const extraWidth = window.outerWidth - window.innerWidth;
+const extraHeight = window.outerHeight - window.innerHeight;
+let isResized = null;
+const windowResizeHandler = () => {
+  clearTimeout(isResized);
+  isResized = setTimeout(() => {
+    window.resizeTo(400 + extraWidth, 600 + extraHeight);
+  }, 500);
+};
+
+const windowUnloadHandler = (event) => {
+  event.preventDefault();
+  return false;
+};
+
+const windowContextHandler = (event) => {
+  event.preventDefault();
+  return false;
+};
+
+window.addEventListener("resize", windowResizeHandler);
+window.addEventListener("beforeunload", windowUnloadHandler);
+window.addEventListener("contextmenu", windowContextHandler);
+
+document.getElementById("switch").addEventListener("change", function () {
+  if (this.checked) {
+    window.removeEventListener("resize", windowResizeHandler);
+    window.removeEventListener("beforeunload", windowUnloadHandler);
+    window.removeEventListener("contextmenu", windowContextHandler);
+  } else {
+    window.addEventListener("resize", windowResizeHandler);
+    window.addEventListener("beforeunload", windowUnloadHandler);
+    window.addEventListener("contextmenu", windowContextHandler);
+  }
+});
 
 /*
   BLINKING EFFECT OF CURSOR
