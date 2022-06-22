@@ -16,6 +16,11 @@ body {
     overflow: hidden;
 }
 
+.hide {
+    /* for debugging */
+    display: none;
+}
+
 .flip-3d > .flip-side {
     position: absolute;
     backface-visibility: hidden;

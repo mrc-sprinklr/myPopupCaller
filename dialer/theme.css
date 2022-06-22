@@ -14,14 +14,14 @@
     --main_dark: #b4bec8;
     --main_darker: #5a646e;
 
-    --common_text: #1e1e1e;
+    --common_text: #141414;
 }
 
 .theme-charcoal {
     --main: #736e6e;
     --main_light: #b4aaaa;
     --main_dark: #3c3c3c;
-    --main_darker: #141414;
+    --main_darker: #191414;
 
     --common_text: #faf5f0;
 }
@@ -40,6 +40,24 @@
     --main_light: #ffdc73;
     --main_dark: #c86414;
     --main_darker: #c8190a;
+
+    --common_text: #faf5f0;
+}
+
+.theme-grass {
+    --main: #b4e119;
+    --main_light: #64ff96;
+    --main_dark: #7daf19;
+    --main_darker: #194b19;
+
+    --common_text: #141414;
+}
+
+.theme-lilac {
+    --main: #af4be1;
+    --main_light: #e196f0;
+    --main_dark: #7d14af;
+    --main_darker: #1e053c;
 
     --common_text: #faf5f0;
 }
