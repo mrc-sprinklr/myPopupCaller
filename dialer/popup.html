@@ -17,84 +17,105 @@
           type="text/css">
 </head>
 
-<!-- <body oncontextmenu="return false;"> -->
-
 <body>
-    <div class="root-container flip-3d flex-row row-center column-center theme-silver">
+    <div class="root-container flex-row row-center column-center theme-silver">
 
-        <div class="main-page flip-side rotate0">
-            <div class="bars-box">
-                <button class="inject-svg"
-                        id="bars-button"></button>
-            </div>
+        <div class="main-page flex-row row-center column-center">
+            <div class="bordered-page flex-row row-center column-center">
+                <div class="bars-box">
+                    <button class="inject-svg"
+                            id="bars-button"></button>
+                </div>
 
-            <div class="grid-container column-3">
-                <div class="grid-item phone-number flex-row row-center column-center">
-                    <span id="country-code">+1</span>
-                    <div class="dialed-number flex-row row-center column-center">
-                        <!-- <span class="editable"
+                <div class="flex-column row-center column-center">
+                    <div class="flex-item phone-number flex-row row-center column-center">
+                        <span id="country-code">+1</span>
+                        <div class="dialed-number flex-row row-center column-center">
+                            <!-- <span class="editable"
                                       id="position-0">9</span> -->
-                        <span id="number-cursor">|</span>
+                            <span id="number-cursor">|</span>
+                        </div>
+                    </div>
+
+                    <div class="flex-item flip-3d flex-row row-center column-center">
+                        <div class="before-call flip-side rotate0 grid-container column-3">
+                            <div class="grid-item digit">1</div>
+                            <div class="grid-item digit">2</div>
+                            <div class="grid-item digit">3</div>
+                            <div class="grid-item digit">4</div>
+                            <div class="grid-item digit">5</div>
+                            <div class="grid-item digit">6</div>
+                            <div class="grid-item digit">7</div>
+                            <div class="grid-item digit">8</div>
+                            <div class="grid-item digit">9</div>
+                            <div class="grid-item special-digit">*</div>
+                            <div class="grid-item digit">0</div>
+                            <div class="grid-item special-digit">#</div>
+                        </div> <!-- </div class="grid-container"> -->
+
+                        <div class="after-call flip-side rotate180 grid-container column-2">
+                            <div class="grid-item timer">
+                                <span id="time-h">-</span>:<span id="time-m">-</span>:<span id="time-s">-</span>
+                            </div>
+                            <div class="grid-item flex-row row-center column-center">
+                                <button class="inject-svg"
+                                        id="mute-button"></button>
+                            </div>
+                            <div class="grid-item flex-row row-center column-center">
+                                <button class="inject-svg"
+                                        id="hold-button"></button>
+                            </div>
+                        </div> <!-- </div class="grid-container"> -->
+                    </div> <!-- </div class="flip-3d"> -->
+
+                    <div class="flex-item call call-disconnected">
+                        <button class="inject-svg"
+                                id="phone-button"></button>
                     </div>
                 </div>
-
-                <div class="grid-item digit">1</div>
-                <div class="grid-item digit">2</div>
-                <div class="grid-item digit">3</div>
-                <div class="grid-item digit">4</div>
-                <div class="grid-item digit">5</div>
-                <div class="grid-item digit">6</div>
-                <div class="grid-item digit">7</div>
-                <div class="grid-item digit">8</div>
-                <div class="grid-item digit">9</div>
-                <div class="grid-item special-digit">*</div>
-                <div class="grid-item digit">0</div>
-                <div class="grid-item special-digit">#</div>
-
-                <div class="grid-item call call-disconnected">
-                    <button class="inject-svg"
-                            id="phone-button"></button>
-                </div>
-            </div> <!-- </div class="grid-container"> -->
+            </div> <!-- </div class="main-border"> -->
         </div> <!-- </div class="main-page"> -->
 
-        <div class="settings-page flip-side rotate180">
-            <div class="cross-box">
-                <button class="inject-svg"
-                        id="cross-button"></button>
-            </div>
+        <div class="settings-page flex-row row-center column-center shift-right invisible">
+            <div class="bordered-page flex-row row-center column-center">
 
-            <div class="grid-container column-2">
-                <div class="grid-item blank"></div>
-                <div class="grid-item flex-row row-center column-center">
-                    <select id="theme">
-                        <option value=""
-                                disabled
-                                selected>Default Theme</option>
-                        <option value="theme-silver">Silver</option>
-                        <option value="theme-charcoal">Charcoal</option>
-                        <option value="theme-ocean">Ocean</option>
-                        <option value="theme-fire">Fire</option>
-                        <option value="theme-grass">Grass</option>
-                        <option value="theme-lilac">Lilac</option>
-                    </select>
+                <div class="cross-box">
+                    <button class="inject-svg"
+                            id="cross-button"></button>
                 </div>
-                <div class="grid-item flex-row row-center column-center">
-                    <select id="history">
-                        <option value=""
-                                disabled
-                                selected
-                                hidden>Dialed Numbers</option>
-                        <!-- <option value="9876543210">9876543210</option> -->
-                    </select>
-                </div>
-                <div class="grid-item flex-row row-center column-center">
-                    <button class="settings-button">button-1</button>
-                </div>
-                <div class="grid-item flex-row row-center column-center">
-                    <button class="settings-button">button-2</button>
-                </div>
-            </div> <!-- </div class="grid-container"> -->
+
+                <div class="grid-container column-2">
+                    <div class="grid-item blank"></div>
+                    <div class="grid-item flex-row row-center column-center">
+                        <select id="theme">
+                            <option value=""
+                                    disabled
+                                    selected>Default Theme</option>
+                            <option value="theme-silver">Silver</option>
+                            <option value="theme-charcoal">Charcoal</option>
+                            <option value="theme-ocean">Ocean</option>
+                            <option value="theme-fire">Fire</option>
+                            <option value="theme-grass">Grass</option>
+                            <option value="theme-lilac">Lilac</option>
+                        </select>
+                    </div>
+                    <div class="grid-item flex-row row-center column-center">
+                        <select id="history">
+                            <option value=""
+                                    disabled
+                                    selected
+                                    hidden>Dialed Numbers</option>
+                            <!-- <option value="9876543210">9876543210</option> -->
+                        </select>
+                    </div>
+                    <div class="grid-item flex-row row-center column-center">
+                        <button class="settings-button">Button1</button>
+                    </div>
+                    <div class="grid-item flex-row row-center column-center">
+                        <button class="settings-button">Button2</button>
+                    </div>
+                </div> <!-- </div class="grid-container"> -->
+            </div> <!-- </div class="main-border"> -->
         </div> <!-- </div class="settings-page"> -->
     </div> <!-- </div class="root-container"> -->
 

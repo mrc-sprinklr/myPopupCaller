@@ -17,14 +17,48 @@ body {
 }
 
 .hide {
-    /* for debugging */
-    display: none;
+    display: none !important;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.main-page, .settings-page {
+    /* to overlap both the pages */
+    position: absolute;
+    
+    padding: 20px;
+    transition: transform 0.4s ease-out;
+}
+
+.shift-right {
+    transform: translateX(100%);
+}
+
+.shift-left {
+    transform: translateX(-100%);
+}
+
+.bordered-page {
+    /* to place the settings, cross button*/
+    position: relative;
+
+    border: 3px solid var(--main_dark);
+    border-radius: 10px;
+}
+
+.flip-3d {
+    position: relative;
+    width: 360px;
+    height: 380px;
+    background-color: transparent;
 }
 
 .flip-3d > .flip-side {
     position: absolute;
     backface-visibility: hidden;
-    transition: transform 0.5s linear 0s;
+    transition: transform 0.4s linear 0s;
 }
 
 .rotate-180 {
@@ -58,23 +92,23 @@ body {
 }
 
 .grid-container {
-    margin: 10px auto;
-    padding: 10px 30px;
-    border: 3px solid var(--main_dark);
-    border-radius: 10px;
+    margin: auto;
+    padding: 10px;
 
     display: grid;
     align-items: stretch;
-    row-gap: 10px;
-    column-gap: 20px;
 }
 
 .column-2 {
     grid-template-columns: repeat(2, 1fr);
+    column-gap: 40px;
+    row-gap: 20px;
 }
 
 .column-3 {
     grid-template-columns: repeat(3, 1fr);
+    column-gap: 20px;
+    row-gap: 10px;
 }
 
 .grid-item {
@@ -101,9 +135,9 @@ body {
 
 .bars-box,
 .cross-box {
-    position: fixed;
-    top: 18px;
-    right: 15px;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 #bars-button,
@@ -125,10 +159,15 @@ body {
 }
 
 .phone-number {
-    grid-column-start: 1;
-    grid-column-end: 4;
+    padding: 25px 10px;
+    cursor: default;
+}
 
-    padding: 30px 10px;
+.timer {
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    padding: 25px 10px;
     cursor: default;
 }
 
@@ -161,8 +200,8 @@ body {
 }
 
 .call {
-    grid-column-start: 1;
-    grid-column-end: 4;
+    margin-top: 0;
+    margin-bottom: 10px;
 }
 
 #phone-button {
@@ -184,8 +223,7 @@ body {
 .blank {
     grid-column-start: 1;
     grid-column-end: 3;
-
-    padding: 25px;
+    padding: 20px;
 }
 
 select {
@@ -196,4 +234,19 @@ select {
     color: var(--main_darker);
     border-radius: 10px;
     outline: none !important;
+}
+
+#mute-button,
+#hold-button {
+    background-color: var(--main_dark);
+    border: transparent;
+    border-radius: 50%;
+    outline: none !important;
+    cursor: pointer;
+}
+
+.active-button,
+#mute-button:hover,
+#hold-button:hover {
+    background-color: var(--main_darker) !important;
 }

@@ -87,6 +87,8 @@ phone_button.onclick = () => {
     call_container.classList.add("call-disconnected");
     console.log("Hung-up: ", dialed_phone_number);
     dialed_phone_number = null;
+    flipDialpad(false);
+    toggleTimer(false);
   } else if (dialed_digits.length === 11) {
     dialed_phone_number = "";
     dialed_digits.forEach((each) => {
@@ -99,6 +101,8 @@ phone_button.onclick = () => {
     call_container.classList.remove("call-disconnected");
     call_container.classList.add("call-connected");
     console.log("Dialing: ", dialed_phone_number);
+    flipDialpad(true);
+    toggleTimer(true);
   }
 };
 
@@ -106,6 +110,49 @@ function addToHistory(dialed_phone_number) {
   let opt_tag = `<option value="${dialed_phone_number}">${dialed_phone_number}</option>`;
   document.getElementById("history").innerHTML += opt_tag;
   dialed_phone_numbers.add(dialed_phone_number);
+}
+
+const before_call = document.querySelector(".before-call");
+const after_call = document.querySelector(".after-call");
+
+function flipDialpad(flip_type) {
+  document.getElementById("number-cursor").classList.toggle("hide");
+  if (flip_type) {
+    before_call.classList.remove("rotate0");
+    before_call.classList.add("rotate-180");
+
+    after_call.classList.remove("rotate180");
+    after_call.classList.add("rotate0");
+  } else {
+    before_call.classList.remove("rotate-180");
+    before_call.classList.add("rotate0");
+
+    after_call.classList.remove("rotate0");
+    after_call.classList.add("rotate180");
+  }
+}
+
+const hour = document.getElementById("time-h");
+const minute = document.getElementById("time-m");
+const second = document.getElementById("time-s");
+let [h, m, s, call_timer] = [0, 0, 0, null];
+function toggleTimer(start) {
+  if (start) {
+    call_timer = setInterval(() => {
+      s += 1;
+      if (s >= 60) [m, s] = [m + 1, s - 60];
+      if (m >= 60) [h, m] = [h + 1, m - 60];
+
+      second.innerHTML = s < 10 ? "0" + s : s;
+      minute.innerHTML = m < 10 ? "0" + m : m;
+      hour.innerHTML = h < 10 ? "0" + h : h;
+    }, 999);
+  } else {
+    clearInterval(call_timer);
+    [hour.innerHTML, minute.innerHTML, second.innerHTML] = ["-", "-", "-"];
+    console.log(`Call duration: ${h}:${m}:${s}`);
+    [h, m, s, call_timer] = [0, 0, 0, null];
+  }
 }
 
 /*
@@ -168,19 +215,21 @@ const bars_button = document.getElementById("bars-button");
 const cross_button = document.getElementById("cross-button");
 
 bars_button.onclick = () => {
-  main_page.classList.remove("rotate0");
-  main_page.classList.add("rotate-180");
-
-  settings_page.classList.remove("rotate180");
-  settings_page.classList.add("rotate0");
+  settings_page.classList.remove("invisible");
+  main_page.classList.add("shift-left");
+  settings_page.classList.remove("shift-right");
+  setTimeout(() => {
+    main_page.classList.add("invisible");
+  }, 800);
 };
 
 cross_button.onclick = () => {
-  main_page.classList.remove("rotate-180");
-  main_page.classList.add("rotate0");
-
-  settings_page.classList.remove("rotate0");
-  settings_page.classList.add("rotate180");
+  main_page.classList.remove("invisible");
+  settings_page.classList.add("shift-right");
+  main_page.classList.remove("shift-left");
+  setTimeout(() => {
+    settings_page.classList.add("invisible");
+  }, 800);
 };
 
 /*
@@ -209,3 +258,19 @@ document.getElementById("history").addEventListener("change", (event) => {
   cross_button.click();
   updateDialedNumber();
 });
+
+/*
+  MUTE BUTTON
+*/
+const mute_button = document.getElementById("mute-button");
+mute_button.onclick = () => {
+  mute_button.classList.toggle("active-button");
+};
+
+/*
+  HOLD BUTTON
+*/
+const hold_button = document.getElementById("hold-button");
+hold_button.onclick = () => {
+  hold_button.classList.toggle("active-button");
+};
