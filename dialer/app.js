@@ -15,7 +15,7 @@ const windowResizeHandler = () => {
 
 const windowUnloadHandler = (event) => {
   event.preventDefault();
-  return false;
+  return (event.returnValue = "");
 };
 
 const windowContextHandler = (event) => {
