@@ -26,6 +26,24 @@
     --common_text: #faf5f0;
 }
 
+.theme-gold {
+    --main: #e1af32;
+    --main_light: #fae132;
+    --main_dark: #dca000;
+    --main_darker: #503c00;
+
+    --common_text: #141414;
+}
+
+.theme-copper {
+    --main: #c87d41;
+    --main_light: #faaf7d;
+    --main_dark: #964b19;
+    --main_darker: #281400;
+
+    --common_text: #faf5f0;
+}
+
 .theme-ocean {
     --main: #19c8e1;
     --main_light: #4be6ff;
