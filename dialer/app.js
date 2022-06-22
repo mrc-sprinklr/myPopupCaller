@@ -42,7 +42,7 @@ const cursor_object = {
   key: "|",
   html: '<span id="number-cursor">|</span>',
 };
-const dialed_digits = [cursor_object];
+let dialed_digits = [cursor_object];
 const dialed_number = document.querySelector(".dialed-number");
 
 function updateDialedNumber() {
@@ -79,6 +79,7 @@ document.querySelectorAll(".digit").forEach((each) => {
 const call_container = document.querySelector(".call");
 const phone_button = document.getElementById("phone-button");
 let dialed_phone_number = null;
+let dialed_phone_numbers = new Set();
 
 phone_button.onclick = () => {
   if (dialed_phone_number) {
@@ -87,15 +88,25 @@ phone_button.onclick = () => {
     console.log("Hung-up: ", dialed_phone_number);
     dialed_phone_number = null;
   } else if (dialed_digits.length === 11) {
-    dialed_phone_number = country_code.textContent;
+    dialed_phone_number = "";
     dialed_digits.forEach((each) => {
       if (each.key != "|") dialed_phone_number += each.key;
     });
+    if (!dialed_phone_numbers.has(dialed_phone_number))
+      addToHistory(dialed_phone_number);
+
+    dialed_phone_number = country_code.textContent + dialed_phone_number;
     call_container.classList.remove("call-disconnected");
     call_container.classList.add("call-connected");
     console.log("Dialing: ", dialed_phone_number);
   }
 };
+
+function addToHistory(dialed_phone_number) {
+  let opt_tag = `<option value="${dialed_phone_number}">${dialed_phone_number}</option>`;
+  document.getElementById("history").innerHTML += opt_tag;
+  dialed_phone_numbers.add(dialed_phone_number);
+}
 
 /*
   LISTENING TO KEYPRESSES (DIGITS, BACKSPACE, ARROWS)
@@ -180,4 +191,21 @@ document.getElementById("theme").addEventListener("change", (event) => {
   root_container.classList.remove(cur_theme);
   cur_theme = event.target.value;
   root_container.classList.add(cur_theme);
+});
+
+/*
+  DIALED NUMBER HISTORY
+*/
+document.getElementById("history").addEventListener("change", (event) => {
+  dialed_digits = [];
+  Array.from(event.target.value).forEach((each_digit) => {
+    dialed_digits.push({
+      key: `${each_digit}`,
+      html: `<span class="editable" id="position-0">${each_digit}</span>`,
+    });
+  });
+  dialed_digits.push(cursor_object);
+
+  cross_button.click();
+  updateDialedNumber();
 });
