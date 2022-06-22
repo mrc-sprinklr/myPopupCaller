@@ -23,9 +23,11 @@ const windowContextHandler = (event) => {
   return false;
 };
 
-window.addEventListener("resize", windowResizeHandler);
-window.addEventListener("beforeunload", windowUnloadHandler);
-window.addEventListener("contextmenu", windowContextHandler);
+if (!document.getElementById("switch").checked) {
+  window.addEventListener("resize", windowResizeHandler);
+  window.addEventListener("beforeunload", windowUnloadHandler);
+  window.addEventListener("contextmenu", windowContextHandler);
+}
 
 document.getElementById("switch").addEventListener("change", function () {
   if (this.checked) {
@@ -277,6 +279,13 @@ document.getElementById("theme").addEventListener("change", (event) => {
   root_container.classList.remove(cur_theme);
   cur_theme = event.target.value;
   root_container.classList.add(cur_theme);
+});
+
+/*
+  COUNTRY CODE
+*/
+document.getElementById("country").addEventListener("change", (event) => {
+  document.getElementById("country-code").innerHTML = event.target.value;
 });
 
 /*

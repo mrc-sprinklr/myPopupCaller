@@ -102,6 +102,17 @@
                         </select>
                     </div>
                     <div class="grid-item flex-row row-center column-center">
+                        <select id="country">
+                            <option value=""
+                                    disabled
+                                    selected
+                                    hidden>Country</option>
+                            <option value="+1">USA</option>
+                            <option value="+44">UK</option>
+                            <option value="+91">India</option>
+                        </select>
+                    </div>
+                    <div class="grid-item flex-row row-center column-center">
                         <select id="history">
                             <option value=""
                                     disabled
@@ -112,8 +123,9 @@
                     </div>
                     <div class="grid-item switch-box flex-row row-center column-center">
                         <span id="switch-text">Developer<br>Mode</span>
-                        <input type="checkbox"
-                               id="switch" />
+                        <input id="switch"
+                               type="checkbox"
+                               checked />
                         <label for="switch"
                                id="switch-label"></label>
                     </div>
