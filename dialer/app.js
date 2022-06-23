@@ -3,13 +3,13 @@ const root_container = document.querySelector(".root-container");
 /*
   WINDOW RESTRICTIONS & DEVELOPER MODE
 */
-const extraWidth = window.outerWidth - window.innerWidth;
-const extraHeight = window.outerHeight - window.innerHeight;
+const outerWidth = window.outerWidth;
+const outerHeight = window.outerHeight;
 let isResized = null;
 const windowResizeHandler = () => {
   clearTimeout(isResized);
   isResized = setTimeout(() => {
-    window.resizeTo(400 + extraWidth, 600 + extraHeight);
+    window.resizeTo(outerWidth, outerHeight);
   }, 500);
 };
 
@@ -111,10 +111,21 @@ document.querySelectorAll(".digit").forEach((each) => {
 });
 
 /*
+  SOCKET CONNECTION ESTABLISHED
+*/
+const phone_button = document.getElementById("phone-button");
+phone_button.disabled = true;
+setTimeout(() => {
+  document
+    .getElementById("live-socket-dot")
+    .classList.replace("socket-disconnected", "socket-connected");
+  phone_button.disabled = false;
+}, 2000);
+
+/*
   LISTENING TO CALL BUTTON
 */
 const call_container = document.querySelector(".call");
-const phone_button = document.getElementById("phone-button");
 let dialed_phone_number = null;
 let dialed_phone_numbers = new Set();
 
@@ -126,7 +137,7 @@ phone_button.onclick = () => {
     dialed_phone_number = null;
     flipDialpad(false);
     toggleTimer(false);
-  } else if (dialed_digits.length === 11) {
+  } else if (dialed_digits.length > 1) {
     dialed_phone_number = "";
     dialed_digits.forEach((each) => {
       if (each.key != "|") dialed_phone_number += each.key;
