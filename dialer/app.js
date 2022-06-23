@@ -10,7 +10,7 @@ const windowResizeHandler = () => {
   clearTimeout(isResized);
   isResized = setTimeout(() => {
     window.resizeTo(outerWidth, outerHeight);
-  }, 500);
+  }, 200);
 };
 
 const windowUnloadHandler = (event) => {
