@@ -313,6 +313,7 @@ function addNumberToDialpad(num, withCountryCode) {
     });
   });
   dialed_digits.push(cursor_object);
+  cursor_index = num.length;
   updateDialedNumber();
 }
 
