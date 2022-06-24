@@ -1,3 +1,13 @@
+class Message {
+  constructor(sender, message, object) {
+    this.sender = sender;
+    this.message = message;
+    this.object = object;
+  }
+}
+const bc = new BroadcastChannel("connection-info");
+bc.postMessage(new Message("dialer", "loaded", null));
+
 const root_container = document.querySelector(".root-container");
 
 /*
@@ -23,22 +33,8 @@ const windowContextHandler = (event) => {
   return false;
 };
 
-if (!document.getElementById("switch").checked) {
-  window.addEventListener("resize", windowResizeHandler);
-  window.addEventListener("beforeunload", windowUnloadHandler);
-  window.addEventListener("contextmenu", windowContextHandler);
-}
-
 document.getElementById("switch").addEventListener("change", function () {
-  if (this.checked) {
-    window.removeEventListener("resize", windowResizeHandler);
-    window.removeEventListener("beforeunload", windowUnloadHandler);
-    window.removeEventListener("contextmenu", windowContextHandler);
-  } else {
-    window.addEventListener("resize", windowResizeHandler);
-    window.addEventListener("beforeunload", windowUnloadHandler);
-    window.addEventListener("contextmenu", windowContextHandler);
-  }
+  bc.postMessage(new Message("dialer", "dev_mode", this.checked));
 });
 
 /*
@@ -55,7 +51,10 @@ setInterval(() => {
 /*
   INSERT CURSOR WITH MOUSE CLICKS
 */
+let [phone_call_state, mute_state, hold_state] = [false, false, false];
 function insertCursor(event) {
+  if (phone_call_state) return null;
+
   let id = Number(event.target.id.slice("position-".length));
   // console.log(id);
 
@@ -90,6 +89,8 @@ function updateDialedNumber() {
       each.html = each.html.replace(/position-\d+/, `position-${i++}`);
     dialed_number.innerHTML += each.html;
   });
+  if (phone_call_state)
+    document.getElementById("number-cursor").classList.add("hide");
   document.querySelectorAll(".editable").forEach((element) => {
     element.onclick = insertCursor;
   });
@@ -111,32 +112,35 @@ document.querySelectorAll(".digit").forEach((each) => {
 });
 
 /*
-  SOCKET CONNECTION ESTABLISHED
+  LISTENING TO CALL BUTTON
 */
 const phone_button = document.getElementById("phone-button");
 phone_button.disabled = true;
-setTimeout(() => {
-  document
-    .getElementById("live-socket-dot")
-    .classList.replace("socket-disconnected", "socket-connected");
-  phone_button.disabled = false;
-}, 2000);
 
-/*
-  LISTENING TO CALL BUTTON
-*/
 const call_container = document.querySelector(".call");
 let dialed_phone_number = null;
 let dialed_phone_numbers = new Set();
 
 phone_button.onclick = () => {
+  handlePhoneButton();
+  bc.postMessage(new Message("dialer", "dialed_number", dialed_phone_number));
+
+  bc.postMessage(new Message("dialer", "call_state", phone_call_state));
+};
+
+function handlePhoneButton() {
   if (dialed_phone_number) {
+    if (mute_state) mute_button.click();
+    if (hold_state) hold_button.click();
+
     call_container.classList.remove("call-connected");
     call_container.classList.add("call-disconnected");
     console.log("Hung-up: ", dialed_phone_number);
     dialed_phone_number = null;
     flipDialpad(false);
     toggleTimer(false);
+
+    phone_call_state = false;
   } else if (dialed_digits.length > 1) {
     dialed_phone_number = "";
     dialed_digits.forEach((each) => {
@@ -145,14 +149,14 @@ phone_button.onclick = () => {
     if (!dialed_phone_numbers.has(dialed_phone_number))
       addToHistory(dialed_phone_number);
 
-    dialed_phone_number = country_code.textContent + dialed_phone_number;
     call_container.classList.remove("call-disconnected");
     call_container.classList.add("call-connected");
-    console.log("Dialing: ", dialed_phone_number);
+    console.log("Dialing: ", country_code.textContent + dialed_phone_number);
     flipDialpad(true);
     toggleTimer(true);
+    phone_call_state = true;
   }
-};
+}
 
 function addToHistory(dialed_phone_number) {
   let opt_tag = `<option value="${dialed_phone_number}">${dialed_phone_number}</option>`;
@@ -296,7 +300,8 @@ document.getElementById("theme").addEventListener("change", (event) => {
   COUNTRY CODE
 */
 document.getElementById("country").addEventListener("change", (event) => {
-  document.getElementById("country-code").innerHTML = event.target.value;
+  country_code.innerHTML = event.target.value;
+  bc.postMessage(new Message("dialer", "country_code", country_code.innerHTML));
 });
 
 /*
@@ -333,13 +338,29 @@ function addNumberToDialpad(num, withCountryCode) {
 */
 const mute_button = document.getElementById("mute-button");
 mute_button.onclick = () => {
-  mute_button.classList.toggle("active-button");
+  handleMuteButton(!mute_state);
+  bc.postMessage(new Message("dialer", "mute_state", mute_state));
 };
+
+function handleMuteButton(bool) {
+  if (mute_state != bool) {
+    mute_button.classList.toggle("active-button");
+  }
+  mute_state = bool;
+}
 
 /*
   HOLD BUTTON
 */
 const hold_button = document.getElementById("hold-button");
 hold_button.onclick = () => {
-  hold_button.classList.toggle("active-button");
+  handleHoldButton(!hold_state);
+  bc.postMessage(new Message("dialer", "hold_state", hold_state));
 };
+
+function handleHoldButton(bool) {
+  if (hold_state != bool) {
+    hold_button.classList.toggle("active-button");
+  }
+  hold_state = bool;
+}

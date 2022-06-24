@@ -281,7 +281,7 @@ input:checked+label:after {
 
 #phone-button:disabled {
     background-color: var(--main_darker);
-    border: transparent;
+    border: 5px solid var(--main_darker);
 }
 
 select {

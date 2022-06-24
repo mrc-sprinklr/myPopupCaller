@@ -1,10 +1,19 @@
 body {
     background-color: bisque;
 }
+#dailer-box {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
 
-#b1 {
-    margin: 25px;
-    padding: 10px 50px;
+    margin: 10px;
+    padding: 10px;
+}
+
+#dialer-button {
+    margin: 0 10px;
+    padding: 10px 30px;
     font-size: 24px;
     font-weight: bold;
     color: #c8f0f0;
@@ -13,14 +22,25 @@ body {
     border: 3px solid royalblue;
 }
 
-#b1:hover {
+#dialer-button:hover {
     color: #c8dcf0;
     background-color: royalblue;
     border: 3px solid dodgerblue;
 }
 
-#b1:disabled {
+#dialer-button:disabled {
     color: #e6e6e6;
     background-color: silver;
     border: 3px solid #a0a0a0;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+#dialer-frame {
+    margin: 10px;
+    background-color: transparent;
+    border: 5px solid rgb(240, 190, 140);
+    border-radius: 10px;
 }
