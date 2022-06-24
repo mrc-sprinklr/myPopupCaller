@@ -1,31 +1,26 @@
 class Message {
-  constructor(header, comment, object) {
-    this.header = header;
-    this.comment = comment;
+  constructor(sender, message, object) {
+    this.sender = sender;
+    this.message = message;
     this.object = object;
   }
 }
 
-const sendPreviousParent = () => {
-  setTimeout(() => {
-    sendMessage(new Message("reloaded", "previous dialer details", window));
-  }, 2000);
+const bc = new BroadcastChannel("connection-info");
+bc.postMessage(new Message("popup", "loaded", null));
+
+window.onbeforeunload = () => {
+  bc.postMessage(new Message("popup", "on_state", false));
 };
 
-function sendMessage(message) {
-  if (window.opener) {
-    window.opener.receiveMessage(message);
+/*
+  MESSAGING GUIDELINES
+*/
+bc.onmessage = (event) => {
+  if (event.data.sender === "main") {
+    if (event.data.message === "loaded")
+      bc.postMessage(new Message("popup", "on_state", true));
   } else {
-    console.log("no parent window available");
+    console.log("broadcast message ignored");
   }
-}
-
-function receiveMessage(message) {
-  if (message.header === "acknowledged") console.log(message.comment);
-  else if (message.header === "unloading") sendPreviousParent();
-
-  if (message.header && message.header != "acknowledged")
-    sendMessage(new Message("acknowledged", "sent successfully", null));
-}
-
-sendMessage(new Message("initiated", "dialer popped up", null));
+};
