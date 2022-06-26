@@ -60,13 +60,17 @@ if (!call_object.dev_mode) {
 /*
   SOCKET CONNECTION ESTABLISHED
 */
-setTimeout(() => {
+const callback = function () {
   document.querySelector("h2").textContent = "CONNECTED";
   document.querySelector(".ripple").remove();
 
   call_object.conn_state = true;
   bc.postMessage(new Message("popup", "call_object", call_object));
-}, 3000);
+};
+connect(callback);
+// setTimeout(() => {
+//   callback();
+// }, 3000);
 
 class Message {
   constructor(sender, message, object) {

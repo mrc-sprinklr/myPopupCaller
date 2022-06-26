@@ -77,7 +77,14 @@
                 opacity: 0;
             }
         }
+
+        #remoteView {
+            display: none;
+        }
     </style>
+    <script type="text/javascript"
+            src="https://jssip.net/download/releases/jssip-3.2.11.js"></script>
+    <script src="./conn.js"></script>
     <script src="./comms.js"></script>
 </head>
 
@@ -87,6 +94,9 @@
         <div></div>
         <div></div>
     </div>
+    <audio id="remoteView"
+           autoplay
+           controls></audio>
 </body>
 
 </html>
