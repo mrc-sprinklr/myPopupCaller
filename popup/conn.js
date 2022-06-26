@@ -24,11 +24,7 @@ function decline() {
 }
 
 function connect(callback) {
-  let [sip, password, server_address] = [
-    "10075",
-    "10075",
-    "blr-sbc1.ozonetel.com",
-  ];
+  let [sip, password, server_address] = [SIP, PASSWORD, SERVER_ADDRESS];
 
   const configuration = {
     sockets: [new JsSIP.WebSocketInterface("wss://" + server_address + ":442")],
