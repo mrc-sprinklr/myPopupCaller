@@ -1,4 +1,4 @@
 .vscode
 .DS_STORE
 node_modules
-popup/constants.js
+popup/creds.js

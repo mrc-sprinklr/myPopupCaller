@@ -24,10 +24,17 @@ function decline() {
 }
 
 function connect(callback) {
-  let [sip, password, server_address] = [SIP, PASSWORD, SERVER_ADDRESS];
+  let [sip, password, server_address, port] = [
+    USER,
+    PASSWORD,
+    SERVER_ADDRESS,
+    PORT,
+  ];
 
   const configuration = {
-    sockets: [new JsSIP.WebSocketInterface("wss://" + server_address + ":442")],
+    sockets: [
+      new JsSIP.WebSocketInterface("wss://" + server_address + ":" + port),
+    ],
     uri: "sip:" + sip + "@" + server_address,
     authorization_user: sip,
     password: password,
