@@ -6,9 +6,7 @@ bc.onmessage = (event) => {
     if (event.data.message === "loaded") {
       bc.postMessage(new Message("dialer", "loaded", null));
     } else if (event.data.message === "call_object") {
-      // printing call object
-      console.log(event.data.object);
-
+      // console.log(event.data.object);
       setCallObject(event.data.object);
     } else {
       console.log("DIALER: broadcast message ignored");
@@ -40,6 +38,9 @@ function setCallObject(call_object) {
   // dialed_number
   if (call_object.dialed_number)
     addNumberToDialpad(call_object.dialed_number, false);
+
+  // start_timer
+  start_time = call_object.start_time;
 
   // call_state
   if (call_object.call_state != phone_call_state) {

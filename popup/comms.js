@@ -5,6 +5,7 @@ class CallObject {
     call_state,
     country_code,
     dialed_number,
+    start_time,
     mute_state,
     hold_state
   ) {
@@ -13,6 +14,7 @@ class CallObject {
     this.call_state = call_state;
     this.country_code = country_code; // updated only before call_state
     this.dialed_number = dialed_number; // updated only before call_state
+    this.start_time = start_time;
     this.mute_state = mute_state;
     this.hold_state = hold_state;
   }
@@ -24,6 +26,7 @@ const call_object = new CallObject(
   false,
   "+1",
   null,
+  0,
   false,
   false
 );
@@ -118,6 +121,9 @@ bc.onmessage = (event) => {
       bc.postMessage(new Message("popup", "call_object", call_object));
     } else if (event.data.message === "call_state") {
       call_object.call_state = event.data.object;
+      bc.postMessage(new Message("popup", "call_object", call_object));
+    } else if (event.data.message === "start_time") {
+      call_object.start_time = event.data.object;
       bc.postMessage(new Message("popup", "call_object", call_object));
     } else if (event.data.message === "mute_state") {
       call_object.mute_state = event.data.object;

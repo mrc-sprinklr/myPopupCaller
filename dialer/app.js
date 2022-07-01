@@ -128,6 +128,10 @@ phone_button.onclick = () => {
   bc.postMessage(new Message("dialer", "call_state", phone_call_state));
 };
 
+let start_time = 0;
+const secondsPassed = (start_time) =>
+  Math.round((Date.now() - start_time) / 1000);
+
 function handlePhoneButton() {
   if (dialed_phone_number) {
     if (mute_state) mute_button.click();
@@ -138,6 +142,8 @@ function handlePhoneButton() {
     console.log("Hung-up: ", dialed_phone_number);
     dialed_phone_number = null;
     flipDialpad(false);
+
+    start_time = 0;
     toggleTimer(false);
 
     phone_call_state = false;
@@ -153,7 +159,13 @@ function handlePhoneButton() {
     call_container.classList.add("call-connected");
     console.log("Dialing: ", country_code.textContent + dialed_phone_number);
     flipDialpad(true);
+
+    if (start_time == 0) {
+      start_time = Date.now();
+      bc.postMessage(new Message("dialer", "start_time", start_time));
+    }
     toggleTimer(true);
+
     phone_call_state = true;
   }
 }
@@ -191,18 +203,22 @@ let [h, m, s, call_timer] = [0, 0, 0, null];
 function toggleTimer(start) {
   if (start) {
     call_timer = setInterval(() => {
-      s += 1;
-      if (s >= 60) [m, s] = [m + 1, s - 60];
-      if (m >= 60) [h, m] = [h + 1, m - 60];
+      s = secondsPassed(start_time);
+      h = Math.floor(s / 3600);
+      s = s - 3600 * h;
+      m = Math.floor(s / 60);
+      s = s - 60 * m;
 
       second.innerHTML = s < 10 ? "0" + s : s;
       minute.innerHTML = m < 10 ? "0" + m : m;
       hour.innerHTML = h < 10 ? "0" + h : h;
-    }, 999);
+    }, 1000);
   } else {
+    console.log(`Call duration: ${h}:${m}:${s}`);
+
     clearInterval(call_timer);
     [hour.innerHTML, minute.innerHTML, second.innerHTML] = ["-", "-", "-"];
-    console.log(`Call duration: ${h}:${m}:${s}`);
+
     [h, m, s, call_timer] = [0, 0, 0, null];
   }
 }
