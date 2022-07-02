@@ -118,10 +118,8 @@ bc.onmessage = (event) => {
       bc.postMessage(new Message("popup", "call_object", call_object));
 
       if (call_object.call_state) {
-        console.log("call_object: good");
         callNumber(call_object.dialed_number); // jssip call
       } else {
-        console.log("call_object: bad");
         terminate(); // jssip hangup
       }
     } else if (event.data.message === "country_code") {
