@@ -114,8 +114,9 @@ const remoteView = document.getElementById("remoteMedia");
 // ________________________________________________________________
 
 function callNumber(call_to) {
+  // for Avaya services through our asterisk server
   call_to = "125311" + call_to;
-  console.log("$$$ " + call_to);
+
   phone.call(call_to, call_options);
   addStreams();
 }
