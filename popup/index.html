@@ -78,15 +78,12 @@
             }
         }
 
-        #remoteView {
+        video {
             display: none;
         }
     </style>
     <script type="text/javascript"
             src="https://jssip.net/download/releases/jssip-3.2.11.js"></script>
-    <script src="./creds.js"></script>
-    <script src="./conn.js"></script>
-    <script src="./comms.js"></script>
 </head>
 
 <body>
@@ -95,9 +92,18 @@
         <div></div>
         <div></div>
     </div>
-    <audio id="remoteView"
+
+    <video id="localMedia"
+           muted
            autoplay
-           controls></audio>
+           playsinline></video>
+    <video id="remoteMedia"
+           autoplay
+           playsinline></video>
+
+    <script src="./creds.js"></script>
+    <script src="./conn.js"></script>
+    <script src="./comms.js"></script>
 </body>
 
 </html>

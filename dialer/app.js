@@ -123,9 +123,9 @@ let dialed_phone_numbers = new Set();
 
 phone_button.onclick = () => {
   handlePhoneButton();
-  bc.postMessage(new Message("dialer", "dialed_number", dialed_phone_number));
-
-  bc.postMessage(new Message("dialer", "call_state", phone_call_state));
+  if (phone_call_state)
+    bc.postMessage(new Message("dialer", "dialed_number", dialed_phone_number));
+  else bc.postMessage(new Message("dialer", "call_state", phone_call_state));
 };
 
 let start_time = 0;
@@ -139,7 +139,7 @@ function handlePhoneButton() {
 
     call_container.classList.remove("call-connected");
     call_container.classList.add("call-disconnected");
-    console.log("Hung-up: ", dialed_phone_number);
+    console.log("Hung-up: ", country_code.textContent + dialed_phone_number);
     dialed_phone_number = null;
     flipDialpad(false);
 
