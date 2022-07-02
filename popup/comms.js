@@ -113,17 +113,23 @@ bc.onmessage = (event) => {
         window.addEventListener("contextmenu", windowContextHandler);
       }
       bc.postMessage(new Message("popup", "call_object", call_object));
+    } else if (event.data.message === "call_state") {
+      call_object.call_state = event.data.object;
+      bc.postMessage(new Message("popup", "call_object", call_object));
+
+      if (call_object.call_state) {
+        console.log("call_object: good");
+        callNumber(call_object.dialed_number); // jssip call
+      } else {
+        console.log("call_object: bad");
+        terminate(); // jssip hangup
+      }
     } else if (event.data.message === "country_code") {
       call_object.country_code = event.data.object;
       bc.postMessage(new Message("popup", "call_object", call_object));
     } else if (event.data.message === "dialed_number") {
       call_object.dialed_number = event.data.object;
       bc.postMessage(new Message("popup", "call_object", call_object));
-      callNumber(call_object.dialed_number); // jssip call
-    } else if (event.data.message === "call_state") {
-      call_object.call_state = event.data.object;
-      bc.postMessage(new Message("popup", "call_object", call_object));
-      if (!call_object.call_state) terminate(); // jssip hangup
     } else if (event.data.message === "start_time") {
       call_object.start_time = event.data.object;
       bc.postMessage(new Message("popup", "call_object", call_object));

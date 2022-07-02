@@ -14,16 +14,16 @@ let [sip, password, server_address, port] = [
 
 const call_options = {
   eventHandlers: {
-    progress: function (e) {
+    progress: (e) => {
       console.log("call is in progress");
     },
-    failed: function (e) {
+    failed: (e) => {
       console.log("call failed with cause: " + e.data);
     },
-    ended: function (e) {
+    ended: (e) => {
       console.log("call ended with cause: " + e.data);
     },
-    confirmed: function (e) {
+    confirmed: (e) => {
       console.log("call confirmed");
     },
   },
@@ -61,35 +61,68 @@ const configuration = {
 
 // ________________________________________________________________
 
-const connect = (callback) => {
-  phone = new JsSIP.UA(configuration);
-  phone.start();
-
-  phone.on("connected", function (e) {
-    console.log("connected");
-  });
-
-  phone.on("disconnected", function (e) {
-    console.log("disconnected");
-  });
-
-  phone.on("newMessage", function (e) {
-    e.data.message.accept();
-    console.log(e);
-  });
-
-  callback();
-};
-
 // Debugging purpose :)
 const redAlert = () => {
   document.querySelector("body").innerHTML = "";
   document.querySelector("body").style.backgroundColor = "darkred";
 };
 
+const connect = (callback) => {
+  phone = new JsSIP.UA(configuration);
+  phone.start();
+
+  phone.on("connected", (e) => {
+    console.log("connected");
+
+    addEventListeners();
+    callback();
+  });
+
+  phone.on("disconnected", (e) => {
+    console.log("disconnected");
+  });
+
+  phone.on("newMessage", (e) => {
+    e.data.message.accept();
+    console.log(e);
+  });
+};
+
 // ________________________________________________________________
 
-function addStreams() {
+const addEventListeners = () => {
+  phone.on("newRTCSession", (event) => {
+    call = event.session;
+    console.log("Direction: ", call.direction);
+
+    // call.on("sdp", (e) => {
+    //   console.log("call sdp: ", e.sdp);
+    // });
+    // call.on("accepted", (e) => {
+    //   console.log("call accepted: ", e);
+    // });
+    // call.on("progress", function (e) {
+    //   console.log("call is in progress: ", e);
+    // });
+    // call.on("confirmed", (e) => {
+    //   console.log("confirmed by", e.originator);
+    // });
+    // call.on("ended", (e) => {
+    //   console.log("Call ended: ", e);
+    //   terminate();
+    // });
+    // call.on("failed", (e) => {
+    //   console.log("Call failed: ", e);
+    //   terminate();
+    // });
+    // call.on("peerconnection", (e) => {
+    //   console.log("call peerconnection: ", e);
+    // });
+  });
+};
+// ________________________________________________________________
+
+const addStreams = () => {
   call.connection.addEventListener("addstream", function (event) {
     incomingCallAudio.pause();
 
@@ -98,7 +131,7 @@ function addStreams() {
     localView.srcObject = call.connection.getLocalStreams()[0];
     remoteView.srcObject = call.connection.getRemoteStreams()[0];
   });
-}
+};
 
 let incomingCallAudio = new window.Audio(
   "http://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/bonus.wav"
@@ -113,54 +146,25 @@ const remoteView = document.getElementById("remoteMedia");
 
 // ________________________________________________________________
 
-function callNumber(call_to) {
+const callNumber = (call_to) => {
+  call_to = "4153260912";
+
   // for Avaya services through our asterisk server
   call_to = "125311" + call_to;
 
   phone.call(call_to, call_options);
   addStreams();
-}
+};
 
-function answer() {
+const answer = () => {
   if (call) {
     call.answer(call_options);
   }
-}
+};
 
-function terminate() {
+const terminate = () => {
   if (call) {
     call.terminate();
   }
   call = null;
-}
-
-// ________________________________________________________________
-
-// phone.on("newRTCSession", function (event) {
-//   call = event.session;
-//   console.log("Direction: ", call.direction);
-
-//   call.on("sdp", function (e) {
-//     console.log("call sdp: ", e.sdp);
-//   });
-//   call.on("accepted", function (e) {
-//     console.log("call accepted: ", e);
-//   });
-//   call.on("progress", function (e) {
-//     console.log("call is in progress: ", e);
-//   });
-//   call.on("confirmed", function (e) {
-//     console.log("confirmed by", e.originator);
-//   });
-//   call.on("ended", function (e) {
-//     console.log("Call ended: ", e);
-//     terminate();
-//   });
-//   call.on("failed", function (e) {
-//     console.log("Call failed: ", e);
-//     terminate();
-//   });
-//   call.on("peerconnection", function (e) {
-//     console.log("call peerconnection: ", e);
-//   });
-// });
+};

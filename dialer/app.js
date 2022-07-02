@@ -123,9 +123,9 @@ let dialed_phone_numbers = new Set();
 
 phone_button.onclick = () => {
   handlePhoneButton();
-  if (phone_call_state)
-    bc.postMessage(new Message("dialer", "dialed_number", dialed_phone_number));
-  else bc.postMessage(new Message("dialer", "call_state", phone_call_state));
+
+  bc.postMessage(new Message("dialer", "dialed_number", dialed_phone_number));
+  bc.postMessage(new Message("dialer", "call_state", phone_call_state));
 };
 
 let start_time = 0;

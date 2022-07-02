@@ -31,6 +31,11 @@ function setCallObject(call_object) {
   // dev_mode
   document.getElementById("switch").checked = call_object.dev_mode;
 
+  // call_state
+  if (call_object.call_state != phone_call_state) {
+    handlePhoneButton();
+  }
+
   // country_code
   document.getElementById("country").value = call_object.country_code;
   country_code.innerHTML = call_object.country_code;
@@ -41,11 +46,6 @@ function setCallObject(call_object) {
 
   // start_timer
   start_time = call_object.start_time;
-
-  // call_state
-  if (call_object.call_state != phone_call_state) {
-    handlePhoneButton();
-  }
 
   // mute_state
   if (call_object.mute_state != null) {
